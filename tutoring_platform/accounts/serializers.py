@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 class  RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username' , 'email' , 'password' , 'role' , 'phone_number' , 'country']   
+        fields = ['username', 'email' , 'password' , 'role' , 'phone_number' , 'country']   
     
     def validate_password(self , value):
-        return make_password(value)    
+        return make_password(value)     
