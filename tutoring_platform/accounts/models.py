@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-
+from django.conf import settings 
 class CustomerUserManager(BaseUserManager):
     def create_user(self,email, password=None, **extra_fields):
         if not email:
@@ -41,4 +41,68 @@ class CustomUser(AbstractBaseUser , PermissionsMixin):
     objects = CustomerUserManager()  # Ensure email is unique    
     def __str__(self):
         return self.email 
+
+# accounts/models.py
+
+class Subject(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class TutorProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="tutor_profile"
+    )
+    bio = models.TextField(blank=True , null= True )
+    expertise = models.CharField(max_length=255)
+    availability = models.TextField()
+    rating = models.FloatField(default=0.0)
+    price_per_hour = models.DecimalField(max_digits=10 , decimal_places=2)
+    verified = models.BooleanField(default=False)
+    profile_picture = models.ImageField(
+        upload_to="profile_pictures/tutors/",
+        blank=True,
+        null=True
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return f"Tutor: {self.user.email}"
+
+
+class LearnerProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="learner_profile"
+    )
+    bio = models.TextField(blank=True, null=True)
+    goals = models.TextField(blank=True, null=True)
+    preferred_subjects = models.ManyToManyField("Subject", related_name="learners")
+    learning_pace = models.CharField(
+        max_length=20,
+        choices=[
+            ('fast', 'Fast'),
+            ('moderate', 'Moderate'),
+            ('slow', 'Slow')
+        ],
+        default='moderate'
+    )
+    profile_picture = models.ImageField(
+        upload_to="profile_pictures/learners/",
+        blank=True,
+        null=True
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Learner: {self.user.email}"    
     
