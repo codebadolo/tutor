@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'rest_framework',
+    'rest_framework.authtoken',  
     
 ]
 
@@ -82,7 +84,12 @@ DATABASES = {
     }
 }
 
-
+REST_FRAMEWORK = {
+ 'DEFAULT_AUTHENTICATION_CLASSES': (
+      
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -130,3 +137,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+EMAIL_BACKEND  = 'django.core.mail.backends.console.EmailBackend'
