@@ -6,7 +6,6 @@ from .serializers import  RegistrationSerializer , UserSerializer , LoginSeriali
 from rest_framework.permissions import AllowAny # type: ignore
 from django.contrib.auth import authenticate 
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from rest_framework.authtoken.models import Token 
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -39,9 +38,6 @@ class LogoutAPIView(APIView):
             return Response({"message": "Successfully logged out"}, status=status.HTTP_200_OK)
         except AttributeError:
             return Response({"error": "No valid session found"}, status=status.HTTP_400_BAD_REQUEST)        
-    
-    
-    
         
 
 class PasswordResetRequestAPIView(APIView):
@@ -56,3 +52,8 @@ class PasswordResetRequestAPIView(APIView):
             return Response({'detail':"password changed successfully"} ,status=status.HTTP_200_OK)
         return Response(serializer.errors , status = status.HTTP_400_BAD_REQUEST)
             
+            
+# the profile APi          # 
+# 
+
+# student check profile complete his profile  , update 

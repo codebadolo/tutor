@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'rest_framework',
+    'drf_yasg',  # For Swagger and ReDoc  
     'rest_framework.authtoken',  
     
 ]
